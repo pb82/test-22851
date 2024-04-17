@@ -1,0 +1,9 @@
+ilo_modules
+hpe-ilo-1.0.0.tar.gz
+importer_result.json
+automation_output.txt
+.ansible-lint
+hosts
+misc
+tes.yml
+.idea
