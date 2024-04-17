@@ -1,5 +1,0 @@
----
-- hosts: myhosts
-  connection: local
-  roles:
-    - delete_specified_logical_drives

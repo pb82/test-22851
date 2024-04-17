@@ -1,5 +1,0 @@
----
-- hosts: myhosts
-  connection: local
-  roles:
-    - delete_specified_snmpv3_users

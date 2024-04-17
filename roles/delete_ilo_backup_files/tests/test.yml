@@ -1,5 +1,0 @@
----
-- hosts: myhosts
-  connection: local
-  roles:
-    - delete_ilo_backup_files

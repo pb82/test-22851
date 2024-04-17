@@ -1,5 +1,0 @@
----
-- hosts: myhosts
-  connection: local
-  roles:
-    - create_snmp_alert_destinations
