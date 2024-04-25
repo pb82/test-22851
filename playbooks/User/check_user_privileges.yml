@@ -3,11 +3,20 @@
   connection: local
   gather_facts: False
   tasks:
-    - name: Validate server authentication input provided by user
+    - name: Validate input provided by user
       fail:
-        msg: "auth_token is mandatory"
+        msg: "username/password or cert_file/key_file or auth_token is mandatory"
       when:
-        - (auth_token is not defined)
+        - (username is not defined or password is not defined) and (cert_file is not defined or key_file is not defined) and (auth_token is not defined)
+
+    - name: Fail when more than one valid authentication method is provided
+      fail:
+        msg: "Only one authentication method is allowed. Provide either username/password or cert_file/key_file or auth_token."
+      when:
+        - ((username is defined or password is defined) and (cert_file is defined or key_file is defined) and auth_token is defined) or
+          ((username is defined or password is defined) and (cert_file is defined or key_file is defined)) or
+          ((username is defined or password is defined) and auth_token is defined) or
+          ((cert_file is defined or key_file is defined) and auth_token is defined)
 
     - name: Check User Privileges when auth_token is defined
       block:
@@ -16,10 +25,9 @@
             command: CheckUserPrivileges
             baseuri: "{{ baseuri }}"
             auth_token: "{{ auth_token }}"
-            required_permissions: "{{ required_permissions | default(['HostBIOSConfigPriv', 'HostNICConfigPriv', 'HostStorageConfigPriv']) }}"
           register: result
 
-        - name: User Privileges Status
+        - name: User Privileges
           debug:
             msg: "{{ result }}"
 
